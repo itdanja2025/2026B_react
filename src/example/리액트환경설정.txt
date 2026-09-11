@@ -1,0 +1,62 @@
+p.69
+	컴포넌트 만들기
+	1. src 폴더내 -> example -> day01 ~ 
+	2. '컴포넌트명.jsx'	MyMarKup.jsx
+	3. 
+
+p.59 
+	- vscode -> [파일] ->[새창] -> [폴더열기] -> 리액트 폴더선택
+	- 폴더 구조
+		1. node_modules : 설치된 라이브러리 모은 폴더
+		2. public : 이미지/JS/동영상/로고 정적 파일 모은 폴더
+		3. src -> main.jsx : 리액트 실행 진입점 파일
+		4. index.html : 리액트는 SPA(싱글 페이지 애플리케이션) 이라서 .html 1개 
+		5. package.json : 설치전 라이브러리(의존성) 담고 있는 파일 
+	- 리액트 실행하기: *주의할점: 현재 프로젝트 최상위 폴더 위치 선택*
+		PS C:\Users\SKU-403-Teacher\Desktop\2026B_react
+		1. npm run dev 	: 현재 (리액트) 프로젝트 실행
+		2. ctrl+c 		: 리액트 서버 종료
+		3. npm install	: 의존성 최신화/설치
+
+p.56 리액트 프로젝트 생성 
+	1. vscode 실행 -> 터미널 -> 새 터미널
+	2. [ cd.. ] 명령어 입력하여 desktop 폴더로 이동		C:\Users\SKU-403-Teacher\Desktop>
+		- cd..		:    	폴더 뒤로가기
+		- cd 폴더명	:	해당 폴더 이동
+	3. npm create vite@latest 2026B_react
+		npm create vite@latest 프로젝트명
+		* 터미널에서 npm 실행권한 부여( 윈도우 pc 1번 )
+		* Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+	4. * 키보드 방향키로 이동
+        create-vite@9.2.1 
+        Ok to proceed? (y) y
+
+        > npx
+        > create-vite 2026B_react
+
+        │
+        ◇  Package name:
+        │  2026b-react
+        │
+        ◇  Select a framework:
+        │  React
+        │
+        ◇  Select a variant:
+        │  JavaScript + React Compiler
+        │
+        ◇  Which linter to use?
+        │  ESLint
+        │
+        ◇  Install with npm and start now?
+        │  Yes
+
+	5. localhost:5173 접속해서 확인
+
+p.46 노드 설치 
+	- https://nodejs.org/ko/download
+	- 설치간 기본값으로 [NEXT] 해서 설치 완료
+	- cmd(명령프롬프트) -> node -v   , npm -v
+P.45
+	- node.js : 자바처럼 자바스크립트가 혼자서 실행 가능한 환경( 런타임 )
+	- npm : 스프링 그레이들처럼 외부 라이브러리 설치/관리 프로그램
+		- node.js 에 npm 포함
