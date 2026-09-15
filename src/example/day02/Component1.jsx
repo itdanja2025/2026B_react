@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 // 컴포넌트 만드는방법
 // 1. 폴더 오른쪽클릭 -> new file 
@@ -20,3 +21,17 @@ export default function Component1( props ){
         </ol>
     </>);
 }
+=======
+import FrontComp from './FrontComp.jsx'
+import BackComp from './BackComp.jsx'
+function Component1( props ){
+    return (<> 
+        <h2> 리액트 모듈</h2>
+        <ol>
+            <FrontComp onMyEvent1={ ()=> { alert('프론트 클릭됨'); } } />
+            <BackComp onMyEvent2 ={ (msg)=>{ alert(msg); } }/>
+        </ol>
+    </>)
+}
+export default Component1;
+>>>>>>> df1964cdc0502b33e9688f71b180ee2e38b2ecf0

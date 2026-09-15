@@ -1,8 +1,18 @@
+리액트 실행방법
+	- 주의할점: 동시에 여러개 실행X
+	1. 탐색기 빈공간에 오른쪽 클릭 -> [통합 터미널 열기]
+	2. npm run dev 
+	- cd..  		폴더 뒤로가기 
+	- cd 폴더명		지정한 폴더로 이동
+	- ls			현재 폴더의 파일 확인
+	- 주의할점: 실행위치는 항상 프로젝트폴더 최상위폴더
+	C:\Users\SKU-403-Teacher\Desktop\2026B_react\src	[X]
+	C:\Users\SKU-403-Teacher\Desktop\2026B_react>	[O]
+	
 p.69
 	컴포넌트 만들기
 	1. src 폴더내 -> example -> day01 ~ 
 	2. '컴포넌트명.jsx'	MyMarKup.jsx
-	3. 
 
 p.59 
 	- vscode -> [파일] ->[새창] -> [폴더열기] -> 리액트 폴더선택
