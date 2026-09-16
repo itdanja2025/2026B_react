@@ -1,3 +1,14 @@
+리액트에서 외부  라이브러리 설치 방법
+	1.통합 터미넣 열기( 주의할점: 프로젝트폴더 최상위폴더 )
+	C:\Users\SKU-403-Teacher\Desktop\2026B_react>
+	2. npm install 라이브러리
+	npm i react-router-dom
+	https://www.npmjs.com/
+	* node_modules 폴더가 설치된 라이브러리 파일 위치한 폴더(대용량이면서 깃 푸시 금지)
+	* 최초로 깃허브에서 리액트프로젝트 가지고 온 경우에 npm install 해야한다.
+	* 다른 팀원이 npm 으로 설치한 라이브러리가 있다면 취합 후 npm install 해야 한다.
+	-> 리액트 실행 전에 npm install -> npm run dev
+	
 리액트 실행방법
 	- 주의할점: 동시에 여러개 실행X
 	1. 탐색기 빈공간에 오른쪽 클릭 -> [통합 터미널 열기]
