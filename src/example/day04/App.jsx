@@ -16,7 +16,6 @@ export default function App( props ){
             </Route>
             <Route path="*" element={ <NotFound/> } />
         </Routes>
-        <TopNavi></TopNavi>
     </>)
 }
 // <Route path="/도메인이후주소정의" element={ <컴포넌트/> } />
