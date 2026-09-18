@@ -17,24 +17,15 @@ const Yoo = () => {
   const [result, setResult] = useState(null);
 
   const [xmlData, setXmlData] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchTest1 = async () => {
-      setLoading(true);
-      try {
         const response = await axios.get(TEST1_URL);
         const resData = response.data;
         setXmlData( resData.data );
-      } catch (error) {
-        console.error('test1 데이터 조회 실패:', error);
-      } finally {
-        setLoading(false);
-      }
     };
-
     fetchTest1();
-  }, []);
+  }, [] );
 
   const handleRegisterCategory = async (e) => {
     e.preventDefault();
@@ -90,16 +81,9 @@ const Yoo = () => {
 
               <hr style={{ margin: '16px 0', border: '0', borderTop: '1px solid #e0e0e0' }} />
 
-              {loading && <div style={{ fontSize: '13px', color: '#666' }}>데이터 불러오는 중...</div>}
-
-              {!loading && xmlData.length === 0 && (
-                <div style={{ fontSize: '13px', color: '#999' }}>
-                  표시할 데이터가 없습니다. (F12 콘솔창 확인 필요)
-                </div>
-              )}
 
               {/* 스크롤 제거된 테이블 영역 */}
-              {!loading && xmlData.length > 0 && (
+              { xmlData.length > 0 && (
                 <div>
                   <div style={{ border: '1px solid #ddd' }}>
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', textAlign: 'left' }}>
