@@ -21,28 +21,28 @@ const Layout = () => {
             to="/yoo" 
             className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
           >
-             유재석
-          </NavLink>
-
-          <NavLink 
-            to="/kang" 
-            className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
-          >
-             강호동
+             유재석(카테고리등록)
           </NavLink>
 
           <NavLink 
             to="/shin" 
             className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
           >
-             신동엽
+             신동엽(카테고리전체출력)
+          </NavLink>
+
+          <NavLink 
+            to="/kang" 
+            className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
+          >
+             강호동(제춤전체출력)
           </NavLink>
 
           <NavLink 
             to="/seo" 
             className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
           >
-             서장훈
+             서장훈(제품등록)
           </NavLink>
         </nav>
       </aside>
