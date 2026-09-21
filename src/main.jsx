@@ -59,12 +59,12 @@ import { BrowserRouter } from "react-router-dom"; // 1. 라우터 라이브러�
 //     </BrowserRouter>  
 // )
 
-import App from "./example/practice3/App";
-create.render( 
-    <BrowserRouter> 
-        <App /> 
-    </BrowserRouter>  
-)
+// import App from "./example/practice3/App";
+// create.render( 
+//     <BrowserRouter> 
+//         <App /> 
+//     </BrowserRouter>  
+// )
 
 // [day05]
 // import App from "./example/day05/App";
@@ -74,3 +74,11 @@ create.render(
 //         <App /> 
 //     </BrowserRouter>
 // )
+
+// day06
+import App from "./example/day06/App";
+create.render( 
+    <BrowserRouter> { /* 최초 렌더링 컴포넌트 감싼다.*/ }
+        <App /> 
+    </BrowserRouter>
+)
