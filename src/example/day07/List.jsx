@@ -7,11 +7,14 @@ export default function List( props ){
     const [boardData , setBoardData] = useState([]);
     let requestUrl = "http://localhost:8080/api";
 
-    useEffect( async function(){
+    const 전체조회 = async()=>{
         const response = await axios.get( requestUrl );
         const data = response.data; // response 응답결과 , response.data: 응답결과 본문
         console.log( response )
         setBoardData( data ); // 통신 결과 상태변수에 넣어서 재렌더링한다.
+    }
+    useEffect( function () {
+         전체조회 ();
     },[ ]); // useEffect 에서 최초 한번만 실행: useEffect( ()=>{} , [] )
 
     let lists = boardData.map( (row) => {
