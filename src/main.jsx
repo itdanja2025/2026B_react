@@ -84,6 +84,11 @@ const create = createRoot( root );
 // )
 
 // day07
+// import { BrowserRouter } from "react-router-dom";
+// import App from "./example/day07/App";
+// create.render(<BrowserRouter><App/></BrowserRouter>)
+
+// day10
 import { BrowserRouter } from "react-router-dom";
-import App from "./example/day07/App";
+import App from "./example/day10/App";
 create.render(<BrowserRouter><App/></BrowserRouter>)
