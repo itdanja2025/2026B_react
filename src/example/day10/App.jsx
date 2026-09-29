@@ -38,24 +38,39 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 새로고침 시 톰캣 세션 유지 확인 (/api/member/me)
+  // 토큰 확인 및 RTR 재발급 처리
   useEffect(() => {
-    axios.get('http://localhost:8080/api/member/me', { withCredentials: true })
-      .then((res) => {
-        // 데이터가 유효하면 유저 객체 설정, null/빈문자열이면 비로그인 처리
-        if (res.data) {
+    const checkAuth = async () => {
+      try {
+        // 1. 현재 Access Token으로 내 정보 조회 시도
+        const res = await axios.get('http://localhost:8080/api/member/me',        
+        { withCredentials: true });
+
+        if (res.data ) {
           setCurrentUser(res.data);
+          return;
+        }
+
+        // 2. Access Token 만료/없음(null 반환) -> RTR 재발급 요청 (/reissue)
+        const reissueRes = await axios.post('http://localhost:8080/api/member/reissue',        
+          {},
+        { withCredentials: true });
+
+        if (reissueRes.data) {
+          // 백엔드 컨트롤러가 갱신된 쿠키 탑재와 함께 MemberDto를 반환하므로 바로 세팅
+          setCurrentUser(reissueRes.data);
         } else {
           setCurrentUser(null);
         }
-      })
-      .catch((err) => {
-        console.error('세션 확인 실패:', err);
+      } catch (err) {
+        // Refresh Token까지 만료되었거나 변조/침해 감지 시
         setCurrentUser(null);
-      })
-      .finally(() => {
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    checkAuth();
   }, []);
 
   if (loading) {
