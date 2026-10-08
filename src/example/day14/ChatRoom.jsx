@@ -36,7 +36,7 @@ export default function ChatRoom( props ){
         return () => { client.deactivate(); }
     } , [ ])
 
-
+    console.log( messages )
     // *전송시 백엔드에게 메시지 보내기 
     const sendMessage = ( e ) => { 
         console.log( "메시지 보내기"); 
@@ -54,15 +54,61 @@ export default function ChatRoom( props ){
         })
     }
 
+    
+    const [ isConnected , setIsConnected] = useState( false ); // 방 접속 여부
+    const [ roomId , setRoomId ] = useState(''); // 입력받은 방
+    const [ sender , setSender ] = useState(''); // 접속자(닉네임)
+    // 접속 함수
+    const connect = ()=>{ }
+    // 퇴장 함수
+    const disconnect = ()=>{ }
     return (
-        <>
-            <h3> 채팅방 </h3>
-            {   messages.map( (msg) => {
-                    <div> { msg.sender } : { msg.content } </div>
-                })
-            }
-            <input value={ message } onChange={ (e)=> setMessage( e.target.value ) }  />
-            <button type="button" onClick={ sendMessage }> 전송 </button>
-        </>
+        <div>
+            { !isConnected ? (
+                <div>
+                    <input value={ roomId } placeholder="방제목/번호 입력"
+                        onChange={ (e) =>{ setRoomId( e.target.value ) } } />
+                    <input value={ sender } placeholder="채팅 닉네임 입력"
+                        onChange={ (e) =>{ setSender( e.target.value) } } />
+                    <button type="button" onClick={ connect }> 접속 </button>
+                </div>
+            ) : (
+                <div>
+                    <div>
+                        <b> 방제목:{ roomId } / 접속자 : { sender } </b>
+                        <button type="button" onClick={ disconnect }> 퇴장 </button>
+                    </div>
+                    <div>
+                        { messages.map( (msg)=>{
+                            <div>
+                                { msg.type === 'TALK' ? (
+                                    /* 내가 보낸 메시지 여부 */
+                                    msg.sender === sender ? (
+                                        <div>
+                                            <time>{msg.date} </time>
+                                            <p>{ msg.content} </p>
+                                        </div>
+                                    ) : ( /* 남이 보낸 메시지 */
+                                        <div>
+                                            <small>{ msg.sender} </small>
+                                            <div>
+                                                <span> {msg.content } </span>
+                                                <p> {msg.date }</p>
+                                            </div>
+                                        </div>
+                                    )
+                                ) : (
+                                    <i> { msg.content } </i>
+                                )}
+                            </div>
+                        } )}
+                    </div>
+                    <div>
+                        <input value={ message } onChange={ (e)=> setMessage(e.target.value )} />
+                        <button type="button" onClick={ sendMessage }> 전송 </button>
+                    </div>
+                </div>
+            )}
+        </div>
     )
 }
