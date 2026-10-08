@@ -52,16 +52,16 @@ export default function ChatRoom( props ){
     const disconnect = ()=>{ 
         // 1. 퇴장 메시지 발행 
         clientRef.current.publish({
-            destination : "/pub/char/message", 
+            destination : "/pub/chat/message", 
             body: JSON.stringify( {type:'QUIT', roomId , sender ,
                     content: '', date: new Date().toLocaleTimeString() })
         })
         // 2. 소켓 닫기 
         clientRef.current.deactivate();
-        setIsConnected( false ); setMessage([]); // 상태변수 초기화
+        setIsConnected( false ); setMessages([]); // 상태변수 초기화
     }
 
-
+    console.log( messages );
     return (
         <div>
             { !isConnected ? (
@@ -79,29 +79,30 @@ export default function ChatRoom( props ){
                         <button type="button" onClick={ disconnect }> 퇴장 </button>
                     </div>
                     <div>
-                        { messages.map( (msg)=>{
-                            <div>
-                                { msg.type === 'TALK' ? (
-                                    /* 내가 보낸 메시지 여부 */
-                                    msg.sender === sender ? (
-                                        <div>
-                                            <time>{msg.date} </time>
-                                            <p>{ msg.content} </p>
-                                        </div>
-                                    ) : ( /* 남이 보낸 메시지 */
-                                        <div>
-                                            <small>{ msg.sender} </small>
-                                            <div>
-                                                <span> {msg.content } </span>
-                                                <p> {msg.date }</p>
-                                            </div>
-                                        </div>
-                                    )
-                                ) : (
-                                    <i> { msg.content } </i>
-                                )}
-                            </div>
-                        } )}
+                        {messages.map((msg) => (
+                        <div >
+                            {msg.type === 'TALK' ? (
+                            msg.sender === sender ? (
+                                /* [내가 보낸 메시지] */
+                                <div>
+                                <time>{msg.date}</time>
+                                <p>{msg.content}</p>
+                                </div>
+                            ) : (
+                                /* [상대방이 보낸 메시지] */
+                                <div>
+                                <small>{msg.sender}</small>
+                                <div>
+                                    <span>{msg.content}</span>
+                                    <time>{msg.date}</time>
+                                </div>
+                                </div>
+                            )
+                            ) : (
+                            <i>{msg.content}</i>
+                            )}
+                        </div>
+                        ))}
                     </div>
                     <div>
                         <input value={ message } onChange={ (e)=> setMessage(e.target.value )} />
