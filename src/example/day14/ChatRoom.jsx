@@ -1,5 +1,8 @@
 import { Client } from "@stomp/stompjs";
 import { useEffect, useRef, useState } from "react"
+import './ChatRoom.css';
+import Notice from "./Notice";
+
 // ***** 웹소켓/STOMP 설치 ***** 1. 설치: npm install @stomp/stompjs
 export default function ChatRoom( props ){
     // * useState 이란? 상태(값) 저장하고 *변경시 해당 컴포넌트/함수 재실행/재호출* 훅/라이브러리
@@ -110,6 +113,7 @@ export default function ChatRoom( props ){
                     </div>
                 </div>
             )}
+            <Notice />
         </div>
     )
 }
