@@ -10,43 +10,12 @@ export default function ChatRoom( props ){
     // const 변수명 = useRef( 초기값 ); , useRef변수는 .current 속성에 값 보관
     const clientRef = useRef( null ); // 지역변수vs상태(useState)변수vs참조(useRef)변수
 
-    // 컴포넌트 최초 실행시 1번 실행(탄생)
-    useEffect( () => {
-        // 2. const client = new Client( { brokerURL : "접속할백엔드브로커주소" , onConnect : 접속성공이벤트  })
-        const client = new Client( { 
-            brokerURL : "ws://localhost:8080/ws-chat" , // 스프링의 'registerStompEndpoints' 정의 주소와 일치
-            // 3. 만약에 stomp 접속 성공시 특정 경로 구독!
-            onConnect : () => { // 접속 성공하면 실행되는 이벤트/함수 
-                // 특정 경로 구독 신청
-                // client.subscribe( "/구독경로" , (message)=>{ 메시지 받았을 때 } ) // 스프링의 'configureMessageBroker' 정의 주소와 일치
-                client.subscribe( "/sub/chat/room/general" , (message)=>{
-                    // 4.만약에 특정 경로의 구독에서 메시지를 받았을때
-                    // * JSON.parse( 문자열->JS객체 변환 ) vs JSON.stringify( JS객체->문자열 변환)
-                    // * AXIOS 통신은 JSON 기본값으로 자동 변환 지원!!
-                    messages.push( JSON.parse( message.body ) ); // message.body 메시지본문
-                    setMessages( [...messages] ); // 렌더링           
-                })
-            }
-        }) // client end 
-        // 5. stomp 실행 , client.activate()
-        client.activate()
-        // 6. client 객체 다른 함수(전송함수) 사용하기 위해
-        clientRef.current = client;
-        // 7. 만약에 컴포넌트 사라지면(생명주기) , stomp 종료 , client.deactivate();
-        return () => { client.deactivate(); }
-    } , [ ])
-
-    console.log( messages )
     // *전송시 백엔드에게 메시지 보내기 
     const sendMessage = ( e ) => { 
-        console.log( "메시지 보내기"); 
-        // 8. 만약에 소켓객체가 없으면 실패
         if( clientRef.current == null ) return;
-        // 9. 메시지 전송  , client.publish( { destination : "/발행주소" , body : 내용물 }  )
-        // 발행주소: 스프링의 configureMessageBroker 정의된 발행주소 + @MessageMapping 정의된 주소
         const info = {  // 스프링 MessageDto 참조하여 구성 
-            type : 'TALK', roomId : "general" ,  sender : "user" ,
-            content : message , date : new Date().toISOString()
+            type : 'TALK', roomId,  sender,
+            content : message , date : new Date().toLocaleTimeString()
         } 
         clientRef.current.publish({ 
             destination : "/pub/chat/message"  , 
@@ -54,14 +23,45 @@ export default function ChatRoom( props ){
         })
     }
 
-    
     const [ isConnected , setIsConnected] = useState( false ); // 방 접속 여부
     const [ roomId , setRoomId ] = useState(''); // 입력받은 방
     const [ sender , setSender ] = useState(''); // 접속자(닉네임)
-    // 접속 함수
-    const connect = ()=>{ }
+    // 접속 함수 --> 스프링 브로커 연결 
+    const connect = ()=>{
+        const client = new Client( { 
+            brokerURL : "ws://localhost:8080/ws-chat" , 
+            onConnect : () => { 
+                setIsConnected( true ); // 1. ********* 접속 상태 변경 *******
+                // ********* 2.입력받은 방제목으로 구독 *******
+                client.subscribe( `/sub/chat/room/${ roomId }` , (message)=>{
+                     messages.push( JSON.parse( message.body ) ); 
+                    setMessages( [...messages] );      
+                })
+                // ********** 3. 입장메시지 발행 ********
+                client.publish({
+                    destination : "/pub/chat/message",
+                    body: JSON.stringify( {type:'ENTER', roomId , sender ,
+                         content: '', date: new Date().toLocaleTimeString() })
+                });
+            }
+        }) // client end 
+        client.activate()
+        clientRef.current = client;
+    }
     // 퇴장 함수
-    const disconnect = ()=>{ }
+    const disconnect = ()=>{ 
+        // 1. 퇴장 메시지 발행 
+        clientRef.current.publish({
+            destination : "/pub/char/message", 
+            body: JSON.stringify( {type:'QUIT', roomId , sender ,
+                    content: '', date: new Date().toLocaleTimeString() })
+        })
+        // 2. 소켓 닫기 
+        clientRef.current.deactivate();
+        setIsConnected( false ); setMessage([]); // 상태변수 초기화
+    }
+
+
     return (
         <div>
             { !isConnected ? (
