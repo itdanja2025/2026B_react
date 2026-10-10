@@ -99,6 +99,13 @@ const create = createRoot( root );
 // create.render(<BrowserRouter><App/></BrowserRouter>)
 
 // day13
-import { BrowserRouter } from "react-router-dom";
-import ChatRoom from "./example/day14/ChatRoom";
-create.render(<BrowserRouter><ChatRoom/></BrowserRouter>)
+// import ChatRoom from "./example/day14/ChatRoom";
+// create.render(<ChatRoom/>)
+
+// day15
+// import ChatBot from "./example/day15/ChatBot";
+// create.render(<ChatBot/>)
+
+// day15
+import Queue from "./example/day17/Queue";
+create.render(<Queue/>)
